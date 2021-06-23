@@ -1,41 +1,23 @@
 /* eslint-disable react/display-name */
 import React from 'react'
-import {Autocomplete, Avatar, Card, Text, Flex, Box} from '@sanity/ui'
+import {Autocomplete} from '@sanity/ui'
 import PatchEvent, {set, unset} from '@sanity/form-builder/PatchEvent'
 import {UsersIcon} from '@sanity/icons'
 
 import {useProjectUsers} from './lib/user/index'
-
-function OptionRender({payload}) {
-  const {displayName, imageUrl} = payload
-
-  return (
-    <Card as="button">
-      <Flex align="center">
-        <Box paddingLeft={3} paddingY={1}>
-          <Avatar
-            alt={displayName ?? ``}
-            src={imageUrl ?? ``}
-            size={1}
-            style={{opacity: imageUrl ? 1 : 0.1}}
-          />
-        </Box>
-        <Box flex={1} paddingX={3} paddingY={1}>
-          <Text>{displayName}</Text>
-        </Box>
-      </Flex>
-    </Card>
-  )
-}
+import Option from './Option'
 
 // eslint-disable-next-line complexity
 export const UserSelectAutocomplete = React.forwardRef((props, focusableRef) => {
-  const value = props.value || ``
+  const {value, onChange, type} = props
+
   const projectUsers = useProjectUsers() || []
   const userList = projectUsers.filter((user) => !user.displayName.includes(`(Robot)`))
+  const userSelected = userList.find((user) => user.id === value)
+  const userRender = userSelected?.displayName ?? `No user found with this ID: ${value}`
 
   const handleClick = React.useCallback(
-    (userId) => props.onChange(PatchEvent.from(userId ? set(userId) : unset())),
+    (userId) => onChange(PatchEvent.from(userId ? set(userId) : unset())),
     [value]
   )
 
@@ -44,7 +26,7 @@ export const UserSelectAutocomplete = React.forwardRef((props, focusableRef) => 
       icon={UsersIcon}
       radius={1}
       ref={focusableRef}
-      id="user-list"
+      id={type?.name ?? `user-select`}
       filterOption={(query, option) =>
         option.payload.displayName.toLowerCase().indexOf(query.toLowerCase()) > -1
       }
@@ -55,14 +37,15 @@ export const UserSelectAutocomplete = React.forwardRef((props, focusableRef) => 
         payload: user,
       }))}
       onChange={(event) => handleClick(event)}
-      renderOption={OptionRender}
+      renderOption={Option}
       renderValue={() =>
-        value ? userList.filter((user) => user.id === value)?.pop()?.displayName : ``
+        userList?.length > 0 && value && userRender ? userRender : ``
       }
       padding={3}
       fontSize={2}
-      placeholder="Search Users"
+      placeholder={type?.placeholder ?? `Search Users`}
       loading={userList.length === 0}
+      value={value ?? ``}
     />
   )
 })
