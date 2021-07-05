@@ -9,7 +9,7 @@ import Option from './Option'
 
 // eslint-disable-next-line complexity
 export const UserSelectAutocomplete = React.forwardRef((props, focusableRef) => {
-  const {value, onChange, type} = props
+  const {value, onChange, type, readOnly} = props
 
   const projectUsers = useProjectUsers() || []
   const userList = projectUsers.filter((user) => !user.displayName.includes(`(Robot)`))
@@ -37,6 +37,7 @@ export const UserSelectAutocomplete = React.forwardRef((props, focusableRef) => 
         payload: user,
       }))}
       onChange={(event) => handleClick(event)}
+      readOnly={readOnly}
       renderOption={Option}
       renderValue={() =>
         userList?.length > 0 && value && userRender ? userRender : ``
