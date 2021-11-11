@@ -1,6 +1,6 @@
 {
   "name": "sanity-plugin-user-select-input",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Select a User ID from the Project's User Store",
   "main": "lib/UserSelectInput.js",
   "scripts": {

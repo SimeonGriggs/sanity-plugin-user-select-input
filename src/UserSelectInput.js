@@ -1,6 +1,6 @@
 import React from 'react'
 import {FormField} from '@sanity/base/components'
-import {studioTheme, ThemeProvider} from '@sanity/ui'
+import {ThemeProvider} from '@sanity/ui'
 
 import {UserSelectAutocomplete} from './UserSelectAutocomplete'
 
@@ -8,7 +8,7 @@ const UserSelectInput = React.forwardRef((props, focusableRef) => {
   const {type, value} = props
 
   return (
-    <ThemeProvider theme={studioTheme}>
+    <ThemeProvider>
       <FormField
         description={type?.description}
         title={type?.title}

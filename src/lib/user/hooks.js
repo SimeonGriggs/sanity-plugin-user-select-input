@@ -25,7 +25,24 @@ export function useUserList(userIds) {
 
 export function useProjectUsers() {
   const project = useCurrentProject()
-  const allUserIds = project?.members ? project.members.map((user) => user.id) : []
+  let error = false
+  let loading = false
 
-  return useUserList(allUserIds || [])
+  if (project?.error) {
+    error = project
+  }
+
+  if (project?.members) {
+    loading = false
+    error = false
+  }
+
+  const allUserIds = project?.members?.length ? project.members.map((user) => user.id) : []
+  const projectUsers = useUserList(allUserIds)
+
+  return {
+    error,
+    loading,
+    projectUsers,
+  }
 }
