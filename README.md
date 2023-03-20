@@ -2,9 +2,9 @@
 
 Adds a searchable dropdown for all users on the project, and stores their User ID as a string field.
 
-Note: Think of the string as a weak reference. Users can be removed from the Project without first checking if their ID is used in any Document. And once removed their ID will remain stored as the field value.
+Note: Think of the string as a weak reference. Users can be removed from the project without first checking if their ID is used in any Document. And once removed their ID will remain stored as the field value.
 
-This is not a replacement for creating your own schema for example `staff`, `author`, `profile`, `person` etc but rather useful for linking a Document to a Project User. For example `brief`, `task`, `reviewer` etc
+This is not a replacement for creating your schema types like `staff`, `author`, `profile`, `person` etc. It's useful for using a single field to link a document to a user. For example a field like `brief`, `task`, `reviewer` etc.
 
 ## Installation
 
