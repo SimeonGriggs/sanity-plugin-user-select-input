@@ -1,5 +1,7 @@
 # sanity-plugin-user-select-input
 
+**This is a Sanity Studio v3 plugin**
+
 Adds a searchable dropdown for all users on the project, and stores their User ID as a string field.
 
 Note: Think of the string as a weak reference. Users can be removed from the project without first checking if their ID is used in any Document. And once removed their ID will remain stored as the field value.
