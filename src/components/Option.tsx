@@ -1,8 +1,12 @@
-import React from 'react'
 import {Avatar, Card, Text, Flex, Box} from '@sanity/ui'
+import {User} from 'sanity'
 
-export default function Option({payload}) {
-  const {displayName, imageUrl} = payload
+type OptionProps = {
+  payload: User
+}
+
+export default function Option(props: OptionProps) {
+  const {displayName, imageUrl} = props.payload
 
   return (
     <Card as="button">

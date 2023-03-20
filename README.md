@@ -1,56 +1,60 @@
 # sanity-plugin-user-select-input
 
-Custom Input for selecting a User from the Project and storing the ID as a string.
+Adds a searchable dropdown for all users on the project, and stores their User ID as a string field.
 
-![Searching and selecting a Project User](https://user-images.githubusercontent.com/9684022/123063150-12301c80-d405-11eb-9b4e-c5f8a5413833.gif)
-
-Note: Think of the string [like a weak reference](https://www.sanity.io/docs/reference-type#f45f659e7b28). Users can be removed from the Project without first checking if their ID is used in any Document. And once removed their ID will remain stored as the field value.
+Note: Think of the string as a weak reference. Users can be removed from the Project without first checking if their ID is used in any Document. And once removed their ID will remain stored as the field value.
 
 This is not a replacement for creating your own schema for example `staff`, `author`, `profile`, `person` etc but rather useful for linking a Document to a Project User. For example `brief`, `task`, `reviewer` etc
 
 ## Installation
 
-```
-sanity install user-select-input
-```
-
-You have two options:
-
-Fast: Import a helper function and customise the field's `name`
-
-```js
-import { userSelectField } from "sanity-plugin-user-select-input";
-
-export default {
-  // ... all other schema details
-  fields: [
-    // ... all other fields
-    userSelectField("reviewer"),
-  ],
-};
+```sh
+npm install sanity-plugin-user-select-input
 ```
 
-Customisable: Import just the Component to use in your own field:
+<img width="645" alt="Screenshot 2023-03-20 at 19 34 18" src="https://user-images.githubusercontent.com/9684022/226446947-6624eaff-1911-4fe5-9aff-e4221fd80115.png">
 
-```js
-import UserSelectInput from "sanity-plugin-user-select-input";
+## Usage
 
-export default {
-  // ... all other schema details
-  fields: [
-    // ... all other fields
-    {
-      name: "reviewer",
-      title: "Task Reviewer",
-      description: "Select a User",
-      type: "string",
-      inputComponent: UserSelectInput,
-    },
-  ],
-};
+Add it as a plugin in `sanity.config.ts` (or .js):
+
+```ts
+// ./sanity.config.ts
+
+import {defineConfig} from 'sanity'
+import {userSelect} from 'sanity-plugin-user-select-input'
+
+export default defineConfig({
+  //...
+  plugins: [userSelect()],
+})
+```
+
+Add a `userSelect` type field to any document type. It will act like a string field and so can be extended such as using validation rules such as `required`.
+
+```ts
+defineField({
+  name: 'userId',
+  type: 'userSelect',
+}),
 ```
 
 ## License
 
-MIT © Simeon Griggs
-See LICENSE
+[MIT](LICENSE) © Simeon Griggs
+
+## Develop & test
+
+This plugin uses [@sanity/plugin-kit](https://github.com/sanity-io/plugin-kit)
+with default configuration for build & watch scripts.
+
+See [Testing a plugin in Sanity Studio](https://github.com/sanity-io/plugin-kit#testing-a-plugin-in-sanity-studio)
+on how to run this plugin with hotreload in the studio.
+
+
+### Release new version
+
+Run ["CI & Release" workflow](https://github.com/SimeonGriggs/sanity-plugin-user-select-input/actions/workflows/main.yml).
+Make sure to select the main branch and check "Release new version".
+
+Semantic release will only release on configured branches, so it is safe to run release on any branch.
