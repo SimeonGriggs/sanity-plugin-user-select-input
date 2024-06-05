@@ -1,3 +1,5 @@
+> This is a **Sanity Studio v3** plugin.
+
 # sanity-plugin-user-select-input
 
 *This is a Sanity Studio v3 plugin*
